@@ -3,12 +3,13 @@ package ru.job4j.puzzle;
 import ru.job4j.puzzle.firuges.Cell;
 import ru.job4j.puzzle.firuges.Figure;
 
+
 import java.util.Arrays;
 
 /**
  * //TODO add comments.
  *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * @author Ruslan Kosolapchenkov (r.kosolapchenkov@gmail.com)
  * @version $Id$
  * @since 0.1
  */
@@ -39,12 +40,12 @@ public class Logic {
         return rst;
     }
 
-    public boolean isFree(Cell ... cells) {
+    public boolean isFree(Cell... cells) {
         boolean result = cells.length > 0;
         for (Cell cell : cells) {
             if (this.findBy(cell) != -1) {
-               result = false;
-               break;
+                result = false;
+                break;
             }
         }
         return result;
@@ -68,9 +69,38 @@ public class Logic {
         return rst;
     }
 
+    public static boolean monoVertical(int[][] table, int column) {
+        boolean result = true;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i][column] != 1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static boolean monoHorizontal(int[][] table, int row) {
+        boolean result = true;
+        for (int i = 0; i < table.length; i++) {
+            if (table[row][i] != 1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
     public boolean isWin() {
         int[][] table = this.convert();
         boolean result = false;
+        for (int i = 0; i < table.length; i++) {
+            if (monoHorizontal(table, i) || monoVertical(table, i)) {
+                result = true;
+                break;
+            }
+        }
+
         return result;
     }
 

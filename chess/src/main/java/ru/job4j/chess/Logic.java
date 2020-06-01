@@ -22,20 +22,22 @@ public class Logic {
 
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        int index = this.findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            for (Cell cell : steps) {
-                if (this.findBy(cell) != -1) {
-                    throw new IllegalStateException(
-                            String.format("Figure on the way")
-                    );
+        try {
+            int index = this.findBy(source);
+            if (index != -1) {
+                Cell[] steps = this.figures[index].way(source, dest);
+                for (Cell cell : steps) {
+                    if (this.findBy(cell) != -1) {
+                        return false;
+                    }
+                }
+                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
                 }
             }
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
-            }
+        } catch (IllegalStateException ise) {
+            System.out.println("Figure on the way");
         }
         return rst;
     }

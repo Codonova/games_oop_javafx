@@ -12,12 +12,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class LogicTest {
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void whenFigureOnTheWay() {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.B1));
         logic.add(new KingBlack(Cell.C2));
-        logic.move(Cell.B1, Cell.C3);
+        assertThat(logic.move(Cell.B1, Cell.D3), is(false));
     }
 
     @Test

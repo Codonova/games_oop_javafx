@@ -34,7 +34,14 @@ public class LogicTest {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.C1));
         boolean rsl = logic.move(Cell.B1, Cell.D3);
-        boolean expected = false;
-        assertThat(rsl, is(expected));
+        assertThat(rsl, is(false));
     }
+
+    @Test(expected = Exception.class)
+    public void whenWrongDiagonal() {
+        Logic logic = new Logic();
+        logic.add(new BishopBlack(Cell.B1));
+        boolean rsl = logic.move(Cell.B1, Cell.D2);
+    }
+
 }

@@ -6,9 +6,9 @@ import ru.job4j.chess.firuges.Figure;
 import java.util.Arrays;
 
 /**
- * //TODO add comments.
+ * Метод описывает логику игры.
  *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * @author Ruslan Kosolapchenkov (r.kosolapchenkov@yandex.ru)
  * @version $Id$
  * @since 0.1
  */
@@ -21,26 +21,26 @@ public class Logic {
     }
 
     public boolean move(Cell source, Cell dest) {
+
         boolean rst = false;
-        try {
-            int index = this.findBy(source);
-            if (index != -1) {
+        int index = this.findBy(source);
+        if (index != -1) {
+            try {
                 Cell[] steps = this.figures[index].way(source, dest);
-                for (Cell cell : steps) {
-                    if (this.findBy(cell) != -1) {
-                        return false;
+                if (check(source, dest, steps)) {
+                    if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                        rst = true;
+                        this.figures[index] = this.figures[index].copy(dest);
                     }
                 }
-                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                    rst = true;
-                    this.figures[index] = this.figures[index].copy(dest);
-                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (IllegalStateException ise) {
-            System.out.println("Figure on the way");
         }
         return rst;
     }
+
 
     public void clean() {
         for (int position = 0; position != this.figures.length; position++) {
@@ -65,5 +65,24 @@ public class Logic {
         return "Logic{" +
                 "figures=" + Arrays.toString(this.figures) +
                 '}';
+    }
+
+    /**
+     * Метод проверять, есть ли фигура на пути движения
+     *
+     * @param source начальная точка
+     * @param dest   конечная точка
+     * @return Может ли фигура идти или нет
+     */
+
+    private boolean check(Cell source, Cell dest, Cell[] steps) {
+        boolean rsl = true;
+        for (Cell cell : steps) {
+            if (this.findBy(cell) != -1) {
+                rsl = false;
+                break;
+            }
+        }
+        return rsl;
     }
 }

@@ -37,7 +37,7 @@ public class LogicTest {
         assertThat(rsl, is(false));
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void whenWrongDiagonal() {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.B1));
